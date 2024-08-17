@@ -1,0 +1,453 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Flow Eletrotech</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <style>
+        body {
+            font-family: 'Montserrat', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f5f5f5;
+            color: #333;
+        }
+
+        .section {
+            padding: 50px 20px;
+            text-align: center;
+        }
+
+        h2 {
+            font-size: 2em;
+            margin-bottom: 20px;
+            color: #282828;
+        }
+          /* Estilo do Cabeçalho */
+          header {
+            background-color: #282828;
+            color: white;
+            padding: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        header .logo {
+            font-size: 24px;
+            font-weight: bold;
+        }
+
+        nav ul {
+            list-style-type: none;
+            margin: 0;
+            padding: 0;
+            display: flex;
+        }
+
+        nav ul li {
+            margin-left: 20px;
+        }
+
+        nav ul li a {
+            color: white;
+            text-decoration: none;
+        }
+
+        /* Estilo do Banner Principal */
+        .banner {
+            background: url('https://www.wreducacional.com.br/img_cursos/prod/img_1230x644/industria-e-tecnologia/eletricista-predial-residencial.webp') no-repeat center center/cover;
+            height: 70vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            color: rgb(255, 255, 255);
+            position: relative;
+        }
+
+        .banner h1 {
+            font-size: 48px;
+            margin: 0;
+        }
+
+        .banner p {
+            font-size: 24px;
+            margin: 10px 0;
+        }
+
+        .banner a {
+            background-color: #ff7f00;
+            color: white;
+            padding: 10px 20px;
+            text-decoration: none;
+            border-radius: 5px;
+            font-size: 18px;
+        }
+
+        /* Botão do WhatsApp */
+        .whatsapp-button {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background-color: #25D366;
+            border-radius: 50%;
+            width: 60px;
+            height: 60px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        .whatsapp-button i {
+            font-size: 30px;
+            color: #fff;
+            font-weight: bold;
+        }
+
+        /* Estilo da Seção de Depoimentos */
+        .testimonials-container {
+            display: flex;
+            flex-direction: column;
+            gap: 30px;
+            max-width: 600px;
+            margin: 0 auto;
+            margin-top: 50px; /* Adiciona espaço acima dos depoimentos */
+        }
+
+        .testimonial {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .chat-bubble {
+            border-radius: 15px;
+            padding: 15px;
+            max-width: 80%;
+            position: relative;
+            font-size: 16px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .chat-bubble::before {
+            content: "";
+            position: absolute;
+            bottom: 0;
+            width: 0;
+            height: 0;
+            border-style: solid;
+        }
+
+        .client {
+            align-self: flex-start;
+            background-color: #e0e0e0;
+            color: #333;
+            text-align: left;
+        }
+
+        .client::before {
+            left: 10px;
+            border-width: 10px 10px 0 0;
+            border-color: #e0e0e0 transparent transparent transparent;
+        }
+
+        .company {
+            align-self: flex-end;
+            background-color: #ff7f00;
+            color: white;
+            text-align: right;
+        }
+
+        .company::before {
+            right: 10px;
+            border-width: 10px 0 0 10px;
+            border-color: #ff7f00 transparent transparent transparent;
+        }
+
+        .chat-bubble i {
+            font-size: 24px;
+            margin-right: 10px;
+            vertical-align: middle;
+            color: #ff7f00;
+        }
+
+        .chat-bubble h3 {
+            display: inline;
+            font-size: 18px;
+            vertical-align: middle;
+            margin: 0;
+            font-weight: bold;
+        }
+
+        .chat-bubble p {
+            margin: 5px 0 0 34px;
+            font-style: italic;
+        }
+
+        /* Estilo da Seção Sobre Nós */
+        .about {
+            background-color: #282828;
+            color: white;
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            flex-wrap: wrap;
+            padding: 60px 20px;
+        }
+
+        .about .about-text {
+            flex: 1;
+            max-width: 600px;
+        }
+
+        .about .about-image {
+            flex: 1;
+            max-width: 600px;
+        }
+
+        .about .about-image img {
+            width: 100%;
+            border-radius: 10px;
+        }
+
+        #about h2 {
+            color: #ff7f00;
+        }
+
+        /* Seção de Contato */
+        #contact {
+            text-align: center;
+            padding: 50px 20px;
+            background-color: #ff7f00;
+            color: white;
+        }
+
+        #contact h2 {
+            font-size: 2em;
+            margin-bottom: 20px;
+            color: #282828;
+        }
+
+        #contact .cta {
+            font-size: 1.5em;
+            font-weight: bold;
+            margin-bottom: 20px;
+        }
+
+        #contact a {
+            color: white;
+            text-decoration: none;
+            font-size: 1.2em;
+            background-color: #282828;
+            padding: 10px 20px;
+            border-radius: 5px;
+        }
+
+        #contact a:hover {
+            background-color: #333;
+        }
+
+        /* Media Queries para Responsividade */
+        @media (max-width: 768px) {
+            .chat-bubble {
+                max-width: 100%;
+            }
+        }
+
+        /* Estilos para o Carrossel de Serviços */
+        .carousel-container {
+            position: relative;
+            max-width: 100%;
+            overflow: hidden;
+            margin-bottom: 50px; /* Adiciona espaço abaixo do carrossel */
+        }
+
+        .carousel-slide {
+            display: flex;
+            transition: transform 0.5s ease-in-out;
+        }
+
+        .carousel-item {
+            min-width: 300px;
+            padding: 20px;
+            box-sizing: border-box;
+            text-align: center;
+        }
+
+        .carousel-item i {
+            font-size: 50px;
+            color: #ff7f00;
+        }
+
+        .carousel-item h3 {
+            font-size: 1.5em;
+            margin: 15px 0;
+            color: #282828;
+        }
+
+        .cta-button {
+            display: inline-block;
+            margin-top: 10px;
+            padding: 10px 20px;
+            background-color: #ff7f00;
+            color: #fff;
+            text-decoration: none;
+            border-radius: 5px;
+        }
+
+        .cta-button:hover {
+            background-color: #e06700;
+        }
+
+        .carousel-controls {
+            position: absolute;
+            top: 50%;
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            transform: translateY(-50%);
+        }
+
+        .carousel-controls button {
+            background: none;
+            border: none;
+            font-size: 2em;
+            color: #333;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <!-- Cabeçalho -->
+    <header>
+        <div class="logo">Flow Eletrotech</div>
+        <nav>
+            <ul>
+                <li><a href="#home">Home</a></li>
+                <li><a href="#services">Serviços</a></li>
+                <li><a href="#about">Sobre Nós</a></li>
+                <li><a href="#testimonials">Depoimentos</a></li>
+                <li><a href="#contact">Contato</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <!-- Banner Principal -->
+    <section id="home" class="banner">
+        <div>
+            <h1>Bem-vindo à Flow Eletrotech</h1>
+            <p>Soluções Elétricas Completas para sua Casa e Empresa</p>
+            <a href="#contact">Solicite um Orçamento</a>
+        </div>
+    </section>
+
+    <!-- Seção de Serviços -->
+    <section id="services" class="section">
+        <h2>Nossos Serviços</h2>
+        <div class="carousel-container">
+            <div class="carousel-slide">
+                <div class="carousel-item">
+                    <i class="fas fa-bolt"></i>
+                    <h3>Instalação Elétrica Residencial</h3>
+                    <a href="https://wa.me/seunumero" class="cta-button">Saiba Mais</a>
+                </div>
+                <div class="carousel-item">
+                    <i class="fas fa-tools"></i>
+                    <h3>Manutenção Elétrica</h3>
+                    <a href="https://wa.me/seunumero" class="cta-button">Saiba Mais</a>
+                </div>
+                <div class="carousel-item">
+                    <i class="fas fa-home"></i>
+                    <h3>Automação Residencial</h3>
+                    <a href="https://wa.me/seunumero" class="cta-button">Saiba Mais</a>
+                </div>
+            </div>
+            <div class="carousel-controls">
+                <button id="prevService">&#10094;</button>
+                <button id="nextService">&#10095;</button>
+            </div>
+        </div>
+    </section>
+
+ <!-- Seção Sobre Nós -->
+ <section id="about" class="about">
+    <div class="about-text">
+        <h2>Sobre Nós - Eletricista em Caruaru</h2>
+        <p>Na Flow Eletrotech, somos especializados em serviços elétricos na cidade de Caruaru. Com uma equipe de eletricistas altamente qualificados, oferecemos soluções seguras e eficientes para residências e empresas. Desde instalações elétricas até automação residencial, nossa prioridade é garantir a satisfação total de nossos clientes. Procurando por um eletricista em Caruaru? A Flow Eletrotech é a escolha certa para todos os seus projetos elétricos.</p>
+    </div>
+    <div class="about-image">
+        <img src="https://eletricista-em-es.com.br/wp-content/uploads/eletricista-predial.jpg" alt="Sobre nós">
+    </div>
+</section>
+
+    <!-- Seção de Depoimentos -->
+    <section id="testimonials" class="section">
+        <h2>O que nossos clientes dizem</h2>
+        <div class="testimonials-container">
+            <div class="testimonial">
+                <div class="chat-bubble client">
+                    <i class="fas fa-user"></i>
+                    <h3>Maria Silva</h3>
+                    <p>Excelente serviço! Profissionais capacitados e atenciosos. Recomendo a Flow Eletrotech a todos!</p>
+                </div>
+            </div>
+            <div class="testimonial">
+                <div class="chat-bubble company">
+                    <i class="fas fa-comment"></i>
+                    <p>Obrigado, Maria! A satisfação dos nossos clientes é nossa prioridade.</p>
+                </div>
+            </div>
+            <div class="testimonial">
+                <div class="chat-bubble client">
+                    <i class="fas fa-user"></i>
+                    <h3>João Oliveira</h3>
+                    <p>Serviço de qualidade e preço justo. Muito satisfeito com o trabalho realizado em minha casa.</p>
+                </div>
+            </div>
+            <div class="testimonial">
+                <div class="chat-bubble company">
+                    <i class="fas fa-comment"></i>
+                    <p>Agradecemos a confiança, João! Estamos sempre à disposição.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Seção de Contato -->
+    <section id="contact" class="section">
+        <h2>Entre em Contato</h2>
+        <p class="cta">Precisa de um serviço elétrico? Estamos aqui para ajudar. Entre em contato agora e faça seu orçamento!</p>
+        <a href="https://wa.me/seunumero">Fale Conosco pelo WhatsApp</a>
+    </section>
+
+    <!-- Botão do WhatsApp -->
+    <a href="https://wa.me/seunumero" class="whatsapp-button" target="_blank">
+        <i class="fab fa-whatsapp"></i>
+    </a>
+
+    <!-- Script do Carrossel -->
+    <script>
+        const prevButton = document.getElementById('prevService');
+        const nextButton = document.getElementById('nextService');
+        const carouselSlide = document.querySelector('.carousel-slide');
+        let counter = 0;
+
+        prevButton.addEventListener('click', () => {
+            if (counter > 0) {
+                counter--;
+                carouselSlide.style.transform = `translateX(-${counter * 100}%)`;
+            }
+        });
+
+        nextButton.addEventListener('click', () => {
+            if (counter < carouselSlide.children.length - 1) {
+                counter++;
+                carouselSlide.style.transform = `translateX(-${counter * 100}%)`;
+            }
+        });
+    </script>
+</body>
+</html>
