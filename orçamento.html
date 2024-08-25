@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gerar Orçamento</title>
+    <style>
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background-color: #f4f4f4;
+            color: #333;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 800px;
+            margin: 20px auto;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        h2 {
+            text-align: center;
+            color: #282828;
+        }
+
+        label {
+            display: block;
+            margin: 10px 0 5px;
+            font-weight: bold;
+        }
+
+        input[type="text"], input[type="number"], input[type="email"] {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 10px;
+            border-radius: 4px;
+            border: 1px solid #ccc;
+        }
+
+        button {
+            background-color: orange;
+            color: white;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            margin-top: 10px;
+            display: inline-block;
+        }
+
+        button:hover {
+            background-color: #ff9900;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        .tabela {
+            width: 100%;
+            margin: 20px 0;
+            border-collapse: collapse;
+        }
+
+        .tabela th, .tabela td {
+            border: 1px solid #ccc;
+            padding: 10px;
+            text-align: left;
+        }
+
+        .tabela th {
+            background-color: #282828;
+            color: #fff;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Gerar Orçamento</h2>
+
+        <!-- Formulário de Orçamento -->
+        <div id="orcamento">
+            <label for="nomeCliente">Nome do Cliente:</label>
+            <input type="text" id="nomeCliente" required>
+
+            <label for="telefoneCliente">Telefone do Cliente:</label>
+            <input type="text" id="telefoneCliente" required>
+
+            <label for="emailCliente">Email do Cliente:</label>
+            <input type="email" id="emailCliente" required>
+
+            <!-- Serviços -->
+            <h3>Serviços</h3>
+            <label for="descricaoServico">Descrição do Serviço:</label>
+            <input type="text" id="descricaoServico">
+
+            <label for="quantidadeServico">Quantidade:</label>
+            <input type="number" id="quantidadeServico" min="1" step="1">
+
+            <label for="valorUnitarioServico">Valor Unitário:</label>
+            <input type="number" id="valorUnitarioServico" min="0.01" step="0.01">
+
+            <button id="adicionarServico">Adicionar Serviço</button>
+            <ul id="listaServicos"></ul>
+
+            <!-- Materiais -->
+            <h3>Materiais</h3>
+            <label for="descricaoMaterial">Descrição do Material:</label>
+            <input type="text" id="descricaoMaterial">
+
+            <label for="valorMaterial">Valor do Material:</label>
+            <input type="number" id="valorMaterial" min="0.01" step="0.01">
+
+            <button id="adicionarMaterial">Adicionar Material</button>
+            <ul id="listaMateriais"></ul>
+
+            <!-- Desconto -->
+            <label for="desconto">Desconto:</label>
+            <input type="number" id="desconto" min="0" step="0.01" value="0">
+
+            <button id="previsualizarOrcamento">Pré-visualizar Orçamento</button>
+        </div>
+
+        <!-- Pré-visualização do Orçamento -->
+        <div id="previsualizacao" class="hidden">
+            <h3>Dados do Cliente</h3>
+            <p><strong>Nome:</strong> <span id="prevNomeCliente"></span></p>
+            <p><strong>Telefone:</strong> <span id="prevTelefoneCliente"></span></p>
+            <p><strong>Email:</strong> <span id="prevEmailCliente"></span></p>
+
+            <h3>Serviços</h3>
+            <table class="tabela">
+                <thead>
+                    <tr>
+                        <th>Descrição</th>
+                        <th>Quantidade</th>
+                        <th>Valor Unitário</th>
+                        <th>Valor Total</th>
+                    </tr>
+                </thead>
+                <tbody id="corpoTabelaServicos"></tbody>
+            </table>
+
+            <h3>Materiais</h3>
+            <table class="tabela">
+                <thead>
+                    <tr>
+                        <th>Descrição</th>
+                        <th>Valor do Material</th>
+                    </tr>
+                </thead>
+                <tbody id="corpoTabelaMateriais"></tbody>
+            </table>
+
+            <p><strong>Desconto:</strong> R$ <span id="prevDesconto"></span></p>
+            <p><strong>Valor Total:</strong> R$ <span id="prevValorTotal"></span></p>
+
+            <button id="editarOrcamento">Editar Orçamento</button>
+            <button id="gerarPdf">Gerar PDF</button>
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.4.0/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.18/jspdf.plugin.autotable.min.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>
