@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-    <!-- Google tag (gtag.js) -->
+        <!-- Google tag (gtag.js) -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-LGCQTXXZRD"></script>
 <script>
   window.dataLayer = window.dataLayer || [];
@@ -10,6 +10,7 @@
 
   gtag('config', 'G-LGCQTXXZRD');
 </script>
+
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Flow Eletrotech</title>
@@ -93,6 +94,60 @@
             text-decoration: none;
             border-radius: 5px;
             font-size: 18px;
+        }
+          /* Estilo da Seção do Plano de Manutenção */
+          .maintenance-plan {
+            background-color: #ffffff;
+            padding: 50px 20px;
+            text-align: center;
+        }
+
+        .maintenance-plan h2 {
+            font-size: 2em;
+            color: #282828;
+            margin-bottom: 20px;
+        }
+
+        .maintenance-plan p {
+            font-size: 1.2em;
+            line-height: 1.5;
+            color: #555;
+        }
+
+        .maintenance-plan .plan-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px;
+            border-bottom: 1px solid #ddd;
+        }
+
+        .plan-item h3 {
+            font-size: 1.5em;
+            color: #ff7f00;
+        }
+
+        .plan-item p {
+            margin: 10px 0;
+        }
+
+        .plan-item i {
+            font-size: 3em;
+            color: #ff7f00;
+        }
+
+        .cta-button {
+            display: inline-block;
+            margin-top: 20px;
+            padding: 10px 20px;
+            background-color: #ff7f00;
+            color: #fff;
+            text-decoration: none;
+            border-radius: 5px;
+        }
+
+        .cta-button:hover {
+            background-color: #e06700;
         }
 
         /* Botão do WhatsApp */
@@ -296,6 +351,59 @@
             margin: 15px 0;
             color: #282828;
         }
+            
+        /* Estilo da Seção do Instagram */
+    #instagram {
+        background-color: #ffffff;
+        padding: 20px;
+        text-align: left;
+    }
+
+    .instagram-container {
+        display: flex;
+        align-items: center;
+    }
+
+    .instagram-container .profile-pic {
+        width: 60px;
+        height: 60px;
+        border-radius: 50%;
+        border: 2px solid #ddd;
+    }
+
+    .profile-info {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        width: 100%;
+        margin-left: 15px;
+    }
+
+    .username h3 {
+        font-size: 1.2em;
+        color: #000;
+        margin: 0;
+    }
+
+    .profile-name {
+        font-size: 0.9em;
+        color: #888;
+    }
+
+    .follow-btn {
+        background-color: #3897f0;
+        color: white;
+        border: none;
+        padding: 8px 16px;
+        border-radius: 5px;
+        font-size: 0.9em;
+        cursor: pointer;
+        margin-left: auto;
+    }
+
+    .follow-btn:hover {
+        background-color: #267ac0;
+    }
 
         .cta-button {
             display: inline-block;
@@ -335,7 +443,7 @@
         <div class="logo">Flow Eletrotech</div>
         <nav>
             <ul>
-                <li><a href="http://floweletrotech.com.br/">Home</a></li>
+                <li><a href="#home">Home</a></li>
                 <li><a href="#services">Serviços</a></li>
                 <li><a href="#about">Sobre Nós</a></li>
                 <li><a href="#testimonials">Depoimentos</a></li>
@@ -353,11 +461,24 @@
         </div>
     </section>
 
-    <!-- Seção do Instagram -->
+     <!-- Seção do Instagram -->
 <section id="instagram" class="section">
     <h2>Siga-nos no Instagram</h2>
-    <!-- LightWidget WIDGET --><script src="https://cdn.lightwidget.com/widgets/lightwidget.js"></script><iframe src="http://lightwidget.com/widgets/ee29fa394812566b918e2f1b37d3ab76.html" scrolling="no" allowtransparency="true" class="lightwidget-widget" style="width:100%;border:0;overflow:hidden;"></iframe>
+    <div class="instagram-container">
+        <img src="instagram.png" alt="Foto do Perfil" class="profile-pic">
+        <div class="profile-info">
+            <div class="username">
+                <h3>floweletrotech</h3>
+                <span class="profile-name">Flow Eletrotech</span>
+            </div>
+            <a href="https://www.instagram.com/floweletrotech/" target="_blank">
+                <button class="follow-btn">Seguir</button>
+            </a>
+        </div>
+    </div>
 </section>
+
+
     <!-- Seção de Serviços -->
     <section id="services" class="section">
         <h2>Nossos Serviços</h2>
@@ -395,6 +516,46 @@
     <div class="about-image">
         <img src="https://eletricista-em-es.com.br/wp-content/uploads/eletricista-predial.jpg" alt="Sobre nós">
     </div>
+</section>
+
+  <!-- Nova Seção: Plano de Manutenção -->
+  <section id="maintenance" class="maintenance-plan">
+    <h2>Nosso Plano de Manutenção Preventiva</h2>
+    <p>Na Flow Eletrotech, oferecemos um plano completo de manutenção elétrica preventiva para garantir a segurança e o funcionamento eficiente do seu condomínio ou empresa. Confira abaixo alguns dos serviços que oferecemos:</p>
+
+    <div class="plan-item">
+        <i class="fas fa-tools"></i>
+        <div>
+            <h3>Inspeção Geral de Sistemas Elétricos</h3>
+            <p>Realizamos inspeções detalhadas de todos os sistemas elétricos, incluindo quadros de distribuição, transformadores, e sistemas de iluminação de emergência.</p>
+        </div>
+    </div>
+
+    <div class="plan-item">
+        <i class="fas fa-bolt"></i>
+        <div>
+            <h3>Testes e Manutenção de Geradores</h3>
+            <p>Testamos o desempenho dos geradores e realizamos manutenção preventiva para garantir seu funcionamento em situações de emergência.</p>
+        </div>
+    </div>
+
+    <div class="plan-item">
+        <i class="fas fa-camera"></i>
+        <div>
+            <h3>Verificação de Sistemas de CFTV e Segurança</h3>
+            <p>Inspecionamos e ajustamos os sistemas de câmeras de segurança (CFTV) e alarmes para garantir a máxima proteção do seu patrimônio.</p>
+        </div>
+    </div>
+
+    <div class="plan-item">
+        <i class="fas fa-hard-hat"></i>
+        <div>
+            <h3>Testes de Alarmes de Incêndio</h3>
+            <p>Realizamos testes regulares dos alarmes de incêndio e sistemas de iluminação de emergência, assegurando conformidade com as normas de segurança.</p>
+        </div>
+    </div>
+
+    <a href="https://wa.me/seunumero" class="cta-button">Saiba Mais e Solicite um Orçamento</a>
 </section>
 
     <!-- Seção de Depoimentos -->
@@ -438,7 +599,7 @@
     </section>
 
     <!-- Botão do WhatsApp -->
-    <a href="https://wa.me/5581996847246" class="whatsapp-button" target="_blank">
+    <a href="https://wa.me/seunumero" class="whatsapp-button" target="_blank">
         <i class="fab fa-whatsapp"></i>
     </a>
 
