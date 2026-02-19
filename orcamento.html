@@ -1,170 +1,399 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Gerar Orçamento</title>
-    <style>
-        body {
-            font-family: 'Montserrat', sans-serif;
-            background-color: #f4f4f4;
-            color: #333;
-        }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Orçamento - Flow Eletrotech</title>
 
-        .container {
-            width: 90%;
-            max-width: 800px;
-            margin: 20px auto;
-            background-color: #fff;
-            padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-        }
+<style>
+body {
+    font-family: 'Montserrat', sans-serif;
+    background-color: #f4f4f4;
+    margin: 0;
+}
 
-        h2 {
-            text-align: center;
-            color: #282828;
-        }
+.container {
+    width: 95%;
+    max-width: 900px;
+    margin: 30px auto;
+    background: #fff;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 8px 25px rgba(0,0,0,0.08);
+}
 
-        label {
-            display: block;
-            margin: 10px 0 5px;
-            font-weight: bold;
-        }
+h2 {
+    text-align: center;
+    color: #282828;
+    margin-bottom: 30px;
+}
 
-        input[type="text"], input[type="number"], input[type="email"] {
-            width: 100%;
-            padding: 10px;
-            margin-bottom: 10px;
-            border-radius: 4px;
-            border: 1px solid #ccc;
-        }
+h3 {
+    border-bottom: 2px solid orange;
+    padding-bottom: 5px;
+    margin-top: 30px;
+}
 
-        button {
-            background-color: orange;
-            color: white;
-            padding: 10px 15px;
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
-            margin-top: 10px;
-            display: inline-block;
-        }
+label {
+    font-weight: 600;
+    display: block;
+    margin-top: 10px;
+}
 
-        button:hover {
-            background-color: #ff9900;
-        }
+input, textarea {
+    width: 100%;
+    padding: 10px;
+    margin-top: 5px;
+    margin-bottom: 15px;
+    border-radius: 6px;
+    border: 1px solid #ddd;
+}
 
-        .hidden {
-            display: none;
-        }
+button {
+    background-color: orange;
+    color: white;
+    padding: 10px 18px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: 600;
+    margin-top: 10px;
+}
 
-        .tabela {
-            width: 100%;
-            margin: 20px 0;
-            border-collapse: collapse;
-        }
+button:hover {
+    background-color: #ff9900;
+}
 
-        .tabela th, .tabela td {
-            border: 1px solid #ccc;
-            padding: 10px;
-            text-align: left;
-        }
+.tabela {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 15px;
+}
 
-        .tabela th {
-            background-color: #282828;
-            color: #fff;
-        }
-    </style>
+.tabela th {
+    background-color: #282828;
+    color: white;
+    padding: 10px;
+}
+
+.tabela td {
+    padding: 8px;
+    border-bottom: 1px solid #eee;
+}
+
+.resumo-total {
+    margin-top: 20px;
+    padding: 20px;
+    background: #f8f8f8;
+    border-left: 5px solid orange;
+    border-radius: 6px;
+    font-size: 18px;
+}
+
+.resumo-total strong {
+    font-size: 22px;
+}
+
+.cabecalho-empresa {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 3px solid #282828;
+    padding-bottom: 15px;
+    margin-bottom: 20px;
+}
+
+.logo-empresa img {
+    max-height: 70px;
+}
+
+.dados-empresa {
+    text-align: right;
+    font-size: 14px;
+    line-height: 1.5;
+}
+
+.numero-orcamento {
+    font-weight: 700;
+    font-size: 18px;
+    color: #282828;
+}
+
+.hidden {
+    display: none;
+}
+
+@media print {
+    body * {
+        visibility: hidden;
+    }
+    #previsualizacao, #previsualizacao * {
+        visibility: visible;
+    }
+    #previsualizacao {
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 100%;
+    }
+}
+</style>
 </head>
+
 <body>
-    <div class="container">
-        <h2>Gerar Orçamento</h2>
 
-        <!-- Formulário de Orçamento -->
-        <div id="orcamento">
-            <label for="nomeCliente">Nome do Cliente:</label>
-            <input type="text" id="nomeCliente" required>
+<div class="container">
 
-            <label for="telefoneCliente">Telefone do Cliente:</label>
-            <input type="text" id="telefoneCliente" required>
+<h2>Gerar Orçamento</h2>
 
-            <label for="emailCliente">Email do Cliente:</label>
-            <input type="email" id="emailCliente" required>
+<div id="formulario">
 
-            <!-- Serviços -->
-            <h3>Serviços</h3>
-            <label for="descricaoServico">Descrição do Serviço:</label>
-            <input type="text" id="descricaoServico">
+<label>Nome do Cliente</label>
+<input type="text" id="nome">
 
-            <label for="quantidadeServico">Quantidade:</label>
-            <input type="number" id="quantidadeServico" min="1" step="1">
+<label>Telefone</label>
+<input type="text" id="telefone">
 
-            <label for="valorUnitarioServico">Valor Unitário:</label>
-            <input type="number" id="valorUnitarioServico" min="0.01" step="0.01">
+<label>Email</label>
+<input type="email" id="email">
 
-            <button id="adicionarServico">Adicionar Serviço</button>
-            <ul id="listaServicos"></ul>
+<h3>Serviços</h3>
+<input type="text" id="descServico" placeholder="Descrição">
+<input type="number" id="qtdServico" placeholder="Quantidade">
+<input type="number" id="valorServico" placeholder="Valor Unitário">
+<button onclick="addServico()">Adicionar Serviço</button>
+<ul id="listaServicos"></ul>
 
-            <!-- Materiais -->
-            <h3>Materiais</h3>
-            <label for="descricaoMaterial">Descrição do Material:</label>
-            <input type="text" id="descricaoMaterial">
+<h3>Materiais</h3>
+<input type="text" id="descMaterial" placeholder="Descrição">
+<input type="number" id="valorMaterial" placeholder="Valor">
+<button onclick="addMaterial()">Adicionar Material</button>
+<ul id="listaMateriais"></ul>
 
-            <label for="valorMaterial">Valor do Material:</label>
-            <input type="number" id="valorMaterial" min="0.01" step="0.01">
+<label>Desconto</label>
+<input type="number" id="desconto" value="0">
 
-            <button id="adicionarMaterial">Adicionar Material</button>
-            <ul id="listaMateriais"></ul>
+<label>Observações</label>
+<textarea id="observacoes" rows="4"></textarea>
 
-            <!-- Desconto -->
-            <label for="desconto">Desconto:</label>
-            <input type="number" id="desconto" min="0" step="0.01" value="0">
+<button onclick="previsualizar()">Pré-visualizar</button>
 
-            <button id="previsualizarOrcamento">Pré-visualizar Orçamento</button>
-        </div>
+</div>
 
-        <!-- Pré-visualização do Orçamento -->
-        <div id="previsualizacao" class="hidden">
-            <h3>Dados do Cliente</h3>
-            <p><strong>Nome:</strong> <span id="prevNomeCliente"></span></p>
-            <p><strong>Telefone:</strong> <span id="prevTelefoneCliente"></span></p>
-            <p><strong>Email:</strong> <span id="prevEmailCliente"></span></p>
+<div id="previsualizacao" class="hidden">
 
-            <h3>Serviços</h3>
-            <table class="tabela">
-                <thead>
-                    <tr>
-                        <th>Descrição</th>
-                        <th>Quantidade</th>
-                        <th>Valor Unitário</th>
-                        <th>Valor Total</th>
-                    </tr>
-                </thead>
-                <tbody id="corpoTabelaServicos"></tbody>
-            </table>
+<div class="cabecalho-empresa">
+<div class="logo-empresa">
+<img src="logo-flow.png" alt="Flow Eletrotech">
+</div>
+<div class="dados-empresa">
+<div class="numero-orcamento" id="numeroOrcamento"></div>
+Flow Eletrotech<br>
+Telefone: (81) 9 9684-7246<br>
+floweletrotech@gmail.com<br>
+<strong>Emissão:</strong> <span id="dataAtual"></span><br>
+<strong>Validade:</strong> <span id="validade"></span>
+</div>
+</div>
 
-            <h3>Materiais</h3>
-            <table class="tabela">
-                <thead>
-                    <tr>
-                        <th>Descrição</th>
-                        <th>Valor do Material</th>
-                    </tr>
-                </thead>
-                <tbody id="corpoTabelaMateriais"></tbody>
-            </table>
+<h3>Cliente</h3>
+<p><strong>Nome:</strong> <span id="prevNome"></span></p>
+<p><strong>Telefone:</strong> <span id="prevTelefone"></span></p>
+<p><strong>Email:</strong> <span id="prevEmail"></span></p>
 
-            <p><strong>Desconto:</strong> R$ <span id="prevDesconto"></span></p>
-            <p><strong>Valor Total:</strong> R$ <span id="prevValorTotal"></span></p>
+<h3>Serviços</h3>
+<table class="tabela">
+<thead>
+<tr>
+<th>Descrição</th>
+<th>Qtd</th>
+<th>Unit.</th>
+<th>Total</th>
+</tr>
+</thead>
+<tbody id="tabelaServicos"></tbody>
+</table>
 
-            <button id="editarOrcamento">Editar Orçamento</button>
-            <button id="gerarPdf">Gerar PDF</button>
-        </div>
-    </div>
+<h3>Materiais</h3>
+<table class="tabela">
+<thead>
+<tr>
+<th>Descrição</th>
+<th>Valor</th>
+</tr>
+</thead>
+<tbody id="tabelaMateriais"></tbody>
+</table>
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.4.0/jspdf.umd.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.18/jspdf.plugin.autotable.min.js"></script>
-    <script src="script.js"></script>
+<h3>Observações</h3>
+<p id="prevObs"></p>
+
+<div class="resumo-total">
+<p>Desconto: R$ <span id="prevDesconto"></span></p>
+<p><strong>Total Geral: R$ <span id="prevTotal"></span></strong></p>
+</div>
+
+<button onclick="editar()">Editar</button>
+<button onclick="window.print()">Imprimir</button>
+<button onclick="salvarOrcamento()">Salvar Orçamento</button>
+
+
+</div>
+
+</div>
+
+<script type="module">
+
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+import { getFirestore, collection, addDoc, getDocs } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+
+const firebaseConfig = {
+  apiKey: "AIzaSyBQ2dMDwCZVIO-5yVFBCYaEut-ccNgrM4U",
+  authDomain: "flow-eletrotech.firebaseapp.com",
+  projectId: "flow-eletrotech",
+  storageBucket: "flow-eletrotech.firebasestorage.app",
+  messagingSenderId: "637110837514",
+  appId: "1:637110837514:web:917269226e71491f319af3"
+};
+
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
+
+let servicos = [];
+let materiais = [];
+let numeroGerado = null;
+
+/* ================= NUMERAÇÃO FIREBASE ================= */
+
+async function gerarNumeroOrcamento() {
+    const ano = new Date().getFullYear();
+    const snapshot = await getDocs(collection(db, "orcamentos"));
+    const total = snapshot.size + 1;
+    return `ORC-${ano}-${String(total).padStart(3, '0')}`;
+}
+
+/* ================= SERVIÇOS ================= */
+
+window.addServico = function(){
+    const desc = descServico.value;
+    const qtd = Number(qtdServico.value);
+    const valor = Number(valorServico.value);
+
+    if(desc && qtd && valor){
+        servicos.push({desc, qtd, valor});
+        listaServicos.innerHTML += `<li>${desc} - ${qtd} x R$ ${valor}</li>`;
+        descServico.value = "";
+        qtdServico.value = "";
+        valorServico.value = "";
+    }
+}
+
+/* ================= MATERIAIS ================= */
+
+window.addMaterial = function(){
+    const desc = descMaterial.value;
+    const valor = Number(valorMaterial.value);
+
+    if(desc && valor){
+        materiais.push({desc, valor});
+        listaMateriais.innerHTML += `<li>${desc} - R$ ${valor}</li>`;
+        descMaterial.value = "";
+        valorMaterial.value = "";
+    }
+}
+
+/* ================= PREVIEW ================= */
+
+window.previsualizar = async function(){
+
+    formulario.classList.add("hidden");
+    previsualizacao.classList.remove("hidden");
+
+    numeroGerado = await gerarNumeroOrcamento();
+    numeroOrcamento.innerText = numeroGerado;
+
+    const hoje = new Date();
+    const validadeData = new Date();
+    validadeData.setDate(hoje.getDate() + 7);
+
+    dataAtual.innerText = hoje.toLocaleDateString("pt-BR");
+    validade.innerText = validadeData.toLocaleDateString("pt-BR");
+
+    prevNome.innerText = nome.value;
+    prevTelefone.innerText = telefone.value;
+    prevEmail.innerText = email.value;
+    prevObs.innerText = observacoes.value;
+
+    let total = 0;
+    tabelaServicos.innerHTML = "";
+    tabelaMateriais.innerHTML = "";
+
+    servicos.forEach(s => {
+        let subtotal = s.qtd * s.valor;
+        total += subtotal;
+        tabelaServicos.innerHTML += `
+        <tr>
+            <td>${s.desc}</td>
+            <td>${s.qtd}</td>
+            <td>R$ ${s.valor.toFixed(2)}</td>
+            <td>R$ ${subtotal.toFixed(2)}</td>
+        </tr>`;
+    });
+
+    materiais.forEach(m => {
+        total += m.valor;
+        tabelaMateriais.innerHTML += `
+        <tr>
+            <td>${m.desc}</td>
+            <td>R$ ${m.valor.toFixed(2)}</td>
+        </tr>`;
+    });
+
+    let descontoValor = Number(desconto.value);
+    total -= descontoValor;
+
+    prevDesconto.innerText = descontoValor.toFixed(2);
+    prevTotal.innerText = total.toFixed(2);
+
+    window.totalFinal = total;
+}
+
+/* ================= SALVAR NO FIREBASE ================= */
+
+window.salvarOrcamento = async function(){
+
+    if(!numeroGerado){
+        alert("Gere o orçamento antes de salvar.");
+        return;
+    }
+
+    await addDoc(collection(db, "orcamentos"), {
+        numero: numeroGerado,
+        cliente: {
+            nome: nome.value,
+            telefone: telefone.value,
+            email: email.value
+        },
+        servicos: servicos,
+        materiais: materiais,
+        desconto: Number(desconto.value),
+        total: window.totalFinal,
+        observacoes: observacoes.value,
+        criadoEm: new Date()
+    });
+
+    alert("Orçamento salvo com sucesso no banco de dados!");
+}
+
+/* ================= EDITAR ================= */
+
+window.editar = function(){
+    formulario.classList.remove("hidden");
+    previsualizacao.classList.add("hidden");
+}
+
+</script>
+
+
 </body>
 </html>
