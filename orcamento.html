@@ -1,399 +1,317 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Orçamento - Flow Eletrotech</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gerar Orçamento - Flow Eletrotech</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --primary: #FF9900;
+            --primary-hover: #E68A00;
+            --bg-body: #F1F5F9;
+            --sidebar-bg: #0F172A;
+            --text-main: #1E293B;
+            --text-muted: #64748B;
+            --card-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+        }
 
-<style>
-body {
-    font-family: 'Montserrat', sans-serif;
-    background-color: #f4f4f4;
-    margin: 0;
-}
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-body);
+            margin: 0;
+            color: var(--text-main);
+        }
 
-.container {
-    width: 95%;
-    max-width: 900px;
-    margin: 30px auto;
-    background: #fff;
-    padding: 30px;
-    border-radius: 10px;
-    box-shadow: 0 8px 25px rgba(0,0,0,0.08);
-}
+        /* ===== INTERFACE DE EDIÇÃO (ESCONDIDA NA IMPRESSÃO) ===== */
+        .container {
+            width: 95%;
+            max-width: 1000px;
+            margin: 40px auto;
+        }
 
-h2 {
-    text-align: center;
-    color: #282828;
-    margin-bottom: 30px;
-}
+        .form-card {
+            background: #fff;
+            padding: 40px;
+            border-radius: 12px;
+            box-shadow: var(--card-shadow);
+        }
 
-h3 {
-    border-bottom: 2px solid orange;
-    padding-bottom: 5px;
-    margin-top: 30px;
-}
+        h2 { margin-top: 0; color: var(--sidebar-bg); font-weight: 700; border-left: 5px solid var(--primary); padding-left: 15px; }
+        h3 { font-size: 16px; text-transform: uppercase; color: var(--text-muted); margin-top: 30px; border-bottom: 1px solid #E2E8F0; padding-bottom: 8px; }
 
-label {
-    font-weight: 600;
-    display: block;
-    margin-top: 10px;
-}
+        .grid-inputs { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+        .full-width { grid-column: span 2; }
 
-input, textarea {
-    width: 100%;
-    padding: 10px;
-    margin-top: 5px;
-    margin-bottom: 15px;
-    border-radius: 6px;
-    border: 1px solid #ddd;
-}
+        label { font-size: 13px; font-weight: 600; margin-bottom: 6px; display: block; }
+        input, textarea {
+            width: 100%; padding: 12px; border-radius: 8px; border: 1px solid #CBD5E1;
+            box-sizing: border-box; font-family: inherit; margin-bottom: 10px;
+        }
 
-button {
-    background-color: orange;
-    color: white;
-    padding: 10px 18px;
-    border: none;
-    border-radius: 6px;
-    cursor: pointer;
-    font-weight: 600;
-    margin-top: 10px;
-}
+        .btn {
+            padding: 12px 24px; border: none; border-radius: 8px; font-weight: 600; cursor: pointer; transition: 0.2s;
+            display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+        }
+        .btn-primary { background: var(--primary); color: white; }
+        .btn-primary:hover { background: var(--primary-hover); }
+        .btn-add { background: #F1F5F9; color: var(--sidebar-bg); width: 100%; }
 
-button:hover {
-    background-color: #ff9900;
-}
+        .item-list { list-style: none; padding: 0; margin: 15px 0; }
+        .item-list li { 
+            background: #F8FAFC; padding: 10px 15px; border-radius: 6px; 
+            margin-bottom: 5px; font-size: 14px; display: flex; justify-content: space-between;
+            border: 1px solid #E2E8F0;
+        }
 
-.tabela {
-    width: 100%;
-    border-collapse: collapse;
-    margin-top: 15px;
-}
+        /* ===== ÁREA DO DOCUMENTO (ORÇAMENTO) ===== */
+        #previsualizacao {
+            background: white; padding: 50px; border-radius: 4px; color: #333; line-height: 1.6;
+        }
 
-.tabela th {
-    background-color: #282828;
-    color: white;
-    padding: 10px;
-}
+        .doc-header { display: flex; justify-content: space-between; border-bottom: 2px solid #333; padding-bottom: 20px; margin-bottom: 30px; }
+        .doc-logo img { max-height: 80px; }
+        .doc-info { text-align: right; font-size: 13px; }
+        .doc-info h1 { margin: 0; font-size: 22px; color: var(--primary); }
 
-.tabela td {
-    padding: 8px;
-    border-bottom: 1px solid #eee;
-}
+        .doc-table { width: 100%; border-collapse: collapse; margin: 20px 0; }
+        .doc-table th { background: #F1F5F9; text-align: left; padding: 12px; font-size: 12px; border-bottom: 2px solid #333; }
+        .doc-table td { padding: 12px; border-bottom: 1px solid #EEE; font-size: 14px; }
 
-.resumo-total {
-    margin-top: 20px;
-    padding: 20px;
-    background: #f8f8f8;
-    border-left: 5px solid orange;
-    border-radius: 6px;
-    font-size: 18px;
-}
+        .total-box { 
+            margin-left: auto; width: 250px; background: #F8FAFC; 
+            padding: 20px; border-radius: 8px; border-right: 6px solid var(--primary);
+        }
 
-.resumo-total strong {
-    font-size: 22px;
-}
+        .hidden { display: none; }
 
-.cabecalho-empresa {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    border-bottom: 3px solid #282828;
-    padding-bottom: 15px;
-    margin-bottom: 20px;
-}
-
-.logo-empresa img {
-    max-height: 70px;
-}
-
-.dados-empresa {
-    text-align: right;
-    font-size: 14px;
-    line-height: 1.5;
-}
-
-.numero-orcamento {
-    font-weight: 700;
-    font-size: 18px;
-    color: #282828;
-}
-
-.hidden {
-    display: none;
-}
-
-@media print {
-    body * {
-        visibility: hidden;
-    }
-    #previsualizacao, #previsualizacao * {
-        visibility: visible;
-    }
-    #previsualizacao {
-        position: absolute;
-        left: 0;
-        top: 0;
-        width: 100%;
-    }
-}
-</style>
+        /* ===== REGRAS DE IMPRESSÃO (O CORAÇÃO DO ARQUIVO) ===== */
+        @media print {
+            body { background: white; }
+            .no-print, .btn, .sidebar, h2, #formulario { display: none !important; }
+            .container { width: 100%; max-width: none; margin: 0; padding: 0; }
+            #previsualizacao { display: block !important; padding: 0; box-shadow: none; }
+            .total-box { border-right: 6px solid #FF9900 !important; -webkit-print-color-adjust: exact; }
+        }
+    </style>
 </head>
 
 <body>
 
-<div class="container">
+<div class="container no-print">
+    <div class="form-card" id="formulario">
+        <h2>Gerar Orçamento</h2>
+        
+        <div class="grid-inputs">
+            <div>
+                <label>Nome do Cliente</label>
+                <input type="text" id="nome">
+            </div>
+            <div>
+                <label>Telefone</label>
+                <input type="text" id="telefone">
+            </div>
+            <div class="full-width">
+                <label>Email</label>
+                <input type="email" id="email">
+            </div>
+        </div>
 
-<h2>Gerar Orçamento</h2>
+        <div class="grid-inputs">
+            <div>
+                <h3>Serviços</h3>
+                <input type="text" id="descServico" placeholder="Descrição">
+                <div style="display: flex; gap: 10px;">
+                    <input type="number" id="qtdServico" placeholder="Qtd">
+                    <input type="number" id="valorServico" placeholder="R$ Unit.">
+                </div>
+                <button class="btn btn-add" onclick="addServico()">+ Adicionar Serviço</button>
+                <ul id="listaServicos" class="item-list"></ul>
+            </div>
 
-<div id="formulario">
+            <div>
+                <h3>Materiais</h3>
+                <input type="text" id="descMaterial" placeholder="Descrição">
+                <input type="number" id="valorMaterial" placeholder="R$ Total">
+                <button class="btn btn-add" onclick="addMaterial()">+ Adicionar Material</button>
+                <ul id="listaMateriais" class="item-list"></ul>
+            </div>
+        </div>
 
-<label>Nome do Cliente</label>
-<input type="text" id="nome">
+        <div class="grid-inputs">
+            <div>
+                <label>Desconto (R$)</label>
+                <input type="number" id="desconto" value="0">
+            </div>
+            <div class="full-width">
+                <label>Observações Adicionais</label>
+                <textarea id="observacoes" rows="3"></textarea>
+            </div>
+        </div>
 
-<label>Telefone</label>
-<input type="text" id="telefone">
-
-<label>Email</label>
-<input type="email" id="email">
-
-<h3>Serviços</h3>
-<input type="text" id="descServico" placeholder="Descrição">
-<input type="number" id="qtdServico" placeholder="Quantidade">
-<input type="number" id="valorServico" placeholder="Valor Unitário">
-<button onclick="addServico()">Adicionar Serviço</button>
-<ul id="listaServicos"></ul>
-
-<h3>Materiais</h3>
-<input type="text" id="descMaterial" placeholder="Descrição">
-<input type="number" id="valorMaterial" placeholder="Valor">
-<button onclick="addMaterial()">Adicionar Material</button>
-<ul id="listaMateriais"></ul>
-
-<label>Desconto</label>
-<input type="number" id="desconto" value="0">
-
-<label>Observações</label>
-<textarea id="observacoes" rows="4"></textarea>
-
-<button onclick="previsualizar()">Pré-visualizar</button>
-
+        <div style="margin-top: 30px; display: flex; gap: 10px;">
+            <button class="btn btn-primary" onclick="previsualizar()">Pré-visualizar Orçamento</button>
+            <button class="btn" onclick="window.location.href='dashoard.html'" style="background:#CBD5E1">Voltar</button>
+        </div>
+    </div>
 </div>
 
-<div id="previsualizacao" class="hidden">
+<div id="previsualizacao" class="container hidden">
+    <div class="doc-header">
+        <div class="doc-logo">
+            <img src="logo-flow.png" alt="Flow Eletrotech">
+        </div>
+        <div class="doc-info">
+            <h1 id="numeroOrcamento">---</h1>
+            <strong>Flow Eletrotech</strong><br>
+            Contato: (81) 9 9684-7246<br>
+            Email: floweletrotech@gmail.com<br>
+            <strong>Emissão:</strong> <span id="dataAtual"></span>
+        </div>
+    </div>
 
-<div class="cabecalho-empresa">
-<div class="logo-empresa">
-<img src="logo-flow.png" alt="Flow Eletrotech">
-</div>
-<div class="dados-empresa">
-<div class="numero-orcamento" id="numeroOrcamento"></div>
-Flow Eletrotech<br>
-Telefone: (81) 9 9684-7246<br>
-floweletrotech@gmail.com<br>
-<strong>Emissão:</strong> <span id="dataAtual"></span><br>
-<strong>Validade:</strong> <span id="validade"></span>
-</div>
-</div>
+    <div style="margin-bottom: 30px;">
+        <h3 style="margin:0; border:0; color: #333;">Dados do Cliente</h3>
+        <p style="margin: 5px 0;">
+            <strong id="prevNome"></strong><br>
+            <span id="prevTelefone"></span><br>
+            <span id="prevEmail"></span>
+        </p>
+    </div>
 
-<h3>Cliente</h3>
-<p><strong>Nome:</strong> <span id="prevNome"></span></p>
-<p><strong>Telefone:</strong> <span id="prevTelefone"></span></p>
-<p><strong>Email:</strong> <span id="prevEmail"></span></p>
+    <table class="doc-table">
+        <thead>
+            <tr>
+                <th>Descrição do Serviço / Material</th>
+                <th>Qtd</th>
+                <th>Valor Unit.</th>
+                <th>Subtotal</th>
+            </tr>
+        </thead>
+        <tbody id="tabelaItens"></tbody>
+    </table>
 
-<h3>Serviços</h3>
-<table class="tabela">
-<thead>
-<tr>
-<th>Descrição</th>
-<th>Qtd</th>
-<th>Unit.</th>
-<th>Total</th>
-</tr>
-</thead>
-<tbody id="tabelaServicos"></tbody>
-</table>
+    <div style="margin-top: 20px;">
+        <strong>Observações:</strong>
+        <p id="prevObs" style="font-size: 13px; color: #555;"></p>
+    </div>
 
-<h3>Materiais</h3>
-<table class="tabela">
-<thead>
-<tr>
-<th>Descrição</th>
-<th>Valor</th>
-</tr>
-</thead>
-<tbody id="tabelaMateriais"></tbody>
-</table>
+    <div class="total-box">
+        <div style="display: flex; justify-content: space-between; font-size: 14px;">
+            <span>Subtotal:</span> <span id="prevSubtotal">R$ 0,00</span>
+        </div>
+        <div style="display: flex; justify-content: space-between; font-size: 14px; color: #D32F2F;">
+            <span>Desconto:</span> <span>- R$ <span id="prevDesconto">0,00</span></span>
+        </div>
+        <div style="display: flex; justify-content: space-between; font-size: 18px; margin-top: 10px; font-weight: 700;">
+            <span>TOTAL:</span> <span id="prevTotal">R$ 0,00</span>
+        </div>
+    </div>
 
-<h3>Observações</h3>
-<p id="prevObs"></p>
-
-<div class="resumo-total">
-<p>Desconto: R$ <span id="prevDesconto"></span></p>
-<p><strong>Total Geral: R$ <span id="prevTotal"></span></strong></p>
-</div>
-
-<button onclick="editar()">Editar</button>
-<button onclick="window.print()">Imprimir</button>
-<button onclick="salvarOrcamento()">Salvar Orçamento</button>
-
-
-</div>
-
+    <div class="no-print" style="margin-top: 50px; display: flex; gap: 10px; border-top: 1px solid #eee; padding-top: 20px;">
+        <button class="btn" style="background: #64748B; color: white;" onclick="editar()">← Editar</button>
+        <button class="btn btn-primary" onclick="window.print()">🖨️ Imprimir Orçamento</button>
+        <button class="btn" style="background: #10B981; color: white;" onclick="salvarNoFirebase()">Finalizar e Salvar</button>
+    </div>
 </div>
 
 <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+    import { getFirestore, collection, addDoc, getDocs } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
-import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
-import { getFirestore, collection, addDoc, getDocs } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+    const firebaseConfig = {
+        apiKey: "AIzaSyBQ2dMDwCZVIO-5yVFBCYaEut-ccNgrM4U",
+        authDomain: "flow-eletrotech.firebaseapp.com",
+        projectId: "flow-eletrotech",
+    };
 
-const firebaseConfig = {
-  apiKey: "AIzaSyBQ2dMDwCZVIO-5yVFBCYaEut-ccNgrM4U",
-  authDomain: "flow-eletrotech.firebaseapp.com",
-  projectId: "flow-eletrotech",
-  storageBucket: "flow-eletrotech.firebasestorage.app",
-  messagingSenderId: "637110837514",
-  appId: "1:637110837514:web:917269226e71491f319af3"
-};
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
 
-const app = initializeApp(firebaseConfig);
-const db = getFirestore(app);
+    let itens = [];
+    let numeroGerado = "";
+    let totalFinal = 0;
 
-let servicos = [];
-let materiais = [];
-let numeroGerado = null;
+    window.addServico = () => {
+        const desc = document.getElementById('descServico').value;
+        const qtd = Number(document.getElementById('qtdServico').value);
+        const valor = Number(document.getElementById('valorServico').value);
+        if(desc && qtd && valor) {
+            itens.push({desc, qtd, valor, subtotal: qtd * valor});
+            renderListas();
+            limparCampos('descServico', 'qtdServico', 'valorServico');
+        }
+    };
 
-/* ================= NUMERAÇÃO FIREBASE ================= */
+    window.addMaterial = () => {
+        const desc = document.getElementById('descMaterial').value;
+        const valor = Number(document.getElementById('valorMaterial').value);
+        if(desc && valor) {
+            itens.push({desc, qtd: 1, valor: valor, subtotal: valor});
+            renderListas();
+            limparCampos('descMaterial', 'valorMaterial');
+        }
+    };
 
-async function gerarNumeroOrcamento() {
-    const ano = new Date().getFullYear();
-    const snapshot = await getDocs(collection(db, "orcamentos"));
-    const total = snapshot.size + 1;
-    return `ORC-${ano}-${String(total).padStart(3, '0')}`;
-}
-
-/* ================= SERVIÇOS ================= */
-
-window.addServico = function(){
-    const desc = descServico.value;
-    const qtd = Number(qtdServico.value);
-    const valor = Number(valorServico.value);
-
-    if(desc && qtd && valor){
-        servicos.push({desc, qtd, valor});
-        listaServicos.innerHTML += `<li>${desc} - ${qtd} x R$ ${valor}</li>`;
-        descServico.value = "";
-        qtdServico.value = "";
-        valorServico.value = "";
-    }
-}
-
-/* ================= MATERIAIS ================= */
-
-window.addMaterial = function(){
-    const desc = descMaterial.value;
-    const valor = Number(valorMaterial.value);
-
-    if(desc && valor){
-        materiais.push({desc, valor});
-        listaMateriais.innerHTML += `<li>${desc} - R$ ${valor}</li>`;
-        descMaterial.value = "";
-        valorMaterial.value = "";
-    }
-}
-
-/* ================= PREVIEW ================= */
-
-window.previsualizar = async function(){
-
-    formulario.classList.add("hidden");
-    previsualizacao.classList.remove("hidden");
-
-    numeroGerado = await gerarNumeroOrcamento();
-    numeroOrcamento.innerText = numeroGerado;
-
-    const hoje = new Date();
-    const validadeData = new Date();
-    validadeData.setDate(hoje.getDate() + 7);
-
-    dataAtual.innerText = hoje.toLocaleDateString("pt-BR");
-    validade.innerText = validadeData.toLocaleDateString("pt-BR");
-
-    prevNome.innerText = nome.value;
-    prevTelefone.innerText = telefone.value;
-    prevEmail.innerText = email.value;
-    prevObs.innerText = observacoes.value;
-
-    let total = 0;
-    tabelaServicos.innerHTML = "";
-    tabelaMateriais.innerHTML = "";
-
-    servicos.forEach(s => {
-        let subtotal = s.qtd * s.valor;
-        total += subtotal;
-        tabelaServicos.innerHTML += `
-        <tr>
-            <td>${s.desc}</td>
-            <td>${s.qtd}</td>
-            <td>R$ ${s.valor.toFixed(2)}</td>
-            <td>R$ ${subtotal.toFixed(2)}</td>
-        </tr>`;
-    });
-
-    materiais.forEach(m => {
-        total += m.valor;
-        tabelaMateriais.innerHTML += `
-        <tr>
-            <td>${m.desc}</td>
-            <td>R$ ${m.valor.toFixed(2)}</td>
-        </tr>`;
-    });
-
-    let descontoValor = Number(desconto.value);
-    total -= descontoValor;
-
-    prevDesconto.innerText = descontoValor.toFixed(2);
-    prevTotal.innerText = total.toFixed(2);
-
-    window.totalFinal = total;
-}
-
-/* ================= SALVAR NO FIREBASE ================= */
-
-window.salvarOrcamento = async function(){
-
-    if(!numeroGerado){
-        alert("Gere o orçamento antes de salvar.");
-        return;
+    function renderListas() {
+        document.getElementById('listaServicos').innerHTML = itens.filter(i => i.qtd > 1).map(i => `<li>${i.desc} <span>R$ ${i.subtotal.toFixed(2)}</span></li>`).join('');
+        document.getElementById('listaMateriais').innerHTML = itens.filter(i => i.qtd === 1).map(i => `<li>${i.desc} <span>R$ ${i.valor.toFixed(2)}</span></li>`).join('');
     }
 
-    await addDoc(collection(db, "orcamentos"), {
-        numero: numeroGerado,
-        cliente: {
-            nome: nome.value,
-            telefone: telefone.value,
-            email: email.value
-        },
-        servicos: servicos,
-        materiais: materiais,
-        desconto: Number(desconto.value),
-        total: window.totalFinal,
-        observacoes: observacoes.value,
-        criadoEm: new Date()
-    });
+    function limparCampos(...ids) { ids.forEach(id => document.getElementById(id).value = ""); }
 
-    alert("Orçamento salvo com sucesso no banco de dados!");
-}
+    window.previsualizar = async () => {
+        document.getElementById('formulario').classList.add('hidden');
+        document.getElementById('previsualizacao').classList.remove('hidden');
 
-/* ================= EDITAR ================= */
+        // Número do Orçamento Dinâmico
+        const snap = await getDocs(collection(db, "orcamentos"));
+        numeroGerado = `ORC-${new Date().getFullYear()}-${String(snap.size + 1).padStart(3, '0')}`;
+        document.getElementById('numeroOrcamento').innerText = numeroGerado;
+        document.getElementById('dataAtual').innerText = new Date().toLocaleDateString("pt-BR");
 
-window.editar = function(){
-    formulario.classList.remove("hidden");
-    previsualizacao.classList.add("hidden");
-}
+        // Preencher Dados
+        document.getElementById('prevNome').innerText = document.getElementById('nome').value;
+        document.getElementById('prevTelefone').innerText = document.getElementById('telefone').value;
+        document.getElementById('prevEmail').innerText = document.getElementById('email').value;
+        document.getElementById('prevObs').innerText = document.getElementById('observacoes').value;
 
+        // Tabela de Itens
+        let subtotalGeral = 0;
+        let htmlItens = "";
+        itens.forEach(i => {
+            subtotalGeral += i.subtotal;
+            htmlItens += `<tr><td>${i.desc}</td><td>${i.qtd}</td><td>R$ ${i.valor.toFixed(2)}</td><td>R$ ${i.subtotal.toFixed(2)}</td></tr>`;
+        });
+        document.getElementById('tabelaItens').innerHTML = htmlItens;
+
+        const descVal = Number(document.getElementById('desconto').value);
+        totalFinal = subtotalGeral - descVal;
+
+        document.getElementById('prevSubtotal').innerText = "R$ " + subtotalGeral.toFixed(2);
+        document.getElementById('prevDesconto').innerText = descVal.toFixed(2);
+        document.getElementById('prevTotal').innerText = totalFinal.toFixed(2);
+    };
+
+    window.editar = () => {
+        document.getElementById('formulario').classList.remove('hidden');
+        document.getElementById('previsualizacao').classList.add('hidden');
+    };
+
+    window.salvarNoFirebase = async () => {
+        if(!confirm("Salvar este orçamento no histórico?")) return;
+        await addDoc(collection(db, "orcamentos"), {
+            numero: numeroGerado,
+            cliente: { nome: document.getElementById('nome').value, telefone: document.getElementById('telefone').value, email: document.getElementById('email').value },
+            itens,
+            total: totalFinal,
+            criadoEm: new Date()
+        });
+        alert("Orçamento salvo!");
+        window.location.href = "pesquisar-orçamento.html";
+    };
 </script>
-
 
 </body>
 </html>
